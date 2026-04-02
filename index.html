@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HADEN — Games</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background: #0a0a0f;
+      color: #e0e0e0;
+      font-family: 'Inter', sans-serif;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ===== Subtle animated background grid ===== */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(212, 175, 55, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(212, 175, 55, 0.03) 1px, transparent 1px);
+      background-size: 60px 60px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* ===== HEADER ===== */
+    header {
+      position: relative;
+      text-align: center;
+      padding: 80px 20px 60px;
+      z-index: 1;
+    }
+
+    .title {
+      font-family: 'Orbitron', sans-serif;
+      font-weight: 900;
+      font-size: clamp(4rem, 12vw, 9rem);
+      letter-spacing: 0.15em;
+      background: linear-gradient(
+        90deg,
+        #8b6914 0%,
+        #d4af37 20%,
+        #ffd700 35%,
+        #fffbe6 50%,
+        #ffd700 65%,
+        #d4af37 80%,
+        #8b6914 100%
+      );
+      background-size: 200% 100%;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: shimmer 3s linear infinite;
+      filter: drop-shadow(0 0 30px rgba(212, 175, 55, 0.3));
+      user-select: none;
+    }
+
+    @keyframes shimmer {
+      0% { background-position: 200% center; }
+      100% { background-position: -200% center; }
+    }
+
+    .subtitle {
+      font-family: 'Inter', sans-serif;
+      font-size: 1.1rem;
+      font-weight: 400;
+      color: rgba(212, 175, 55, 0.5);
+      letter-spacing: 0.4em;
+      text-transform: uppercase;
+      margin-top: 12px;
+    }
+
+    .header-line {
+      width: 120px;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, #d4af37, transparent);
+      margin: 30px auto 0;
+    }
+
+    /* ===== GAMES SECTION ===== */
+    .section {
+      position: relative;
+      z-index: 1;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 40px 24px 100px;
+    }
+
+    .section-title {
+      font-family: 'Orbitron', sans-serif;
+      font-weight: 700;
+      font-size: 1.5rem;
+      color: #d4af37;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      margin-bottom: 40px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .section-title::before,
+    .section-title::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.3), transparent);
+    }
+
+    .games-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 28px;
+    }
+
+    /* ===== GAME CARD ===== */
+    .game-card {
+      background: linear-gradient(145deg, #13131a, #1a1a25);
+      border: 1px solid rgba(212, 175, 55, 0.12);
+      border-radius: 16px;
+      overflow: hidden;
+      transition: all 0.35s ease;
+      position: relative;
+    }
+
+    .game-card:hover {
+      transform: translateY(-6px);
+      border-color: rgba(212, 175, 55, 0.4);
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5), 0 0 30px rgba(212, 175, 55, 0.08);
+    }
+
+    .game-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, transparent, #d4af37, transparent);
+      opacity: 0;
+      transition: opacity 0.35s ease;
+    }
+
+    .game-card:hover::before {
+      opacity: 1;
+    }
+
+    .card-preview {
+      height: 180px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card-preview-polysnake {
+      background: linear-gradient(135deg, #0d1a0d, #1a2f1a);
+    }
+
+    .card-preview-polysnake .preview-icon {
+      font-size: 4rem;
+      filter: drop-shadow(0 0 20px rgba(50, 205, 50, 0.3));
+    }
+
+    .card-preview-coming {
+      background: linear-gradient(135deg, #12121a, #1a1a28);
+    }
+
+    .card-preview-coming .preview-icon {
+      font-size: 3rem;
+      opacity: 0.25;
+    }
+
+    .card-body {
+      padding: 22px;
+    }
+
+    .card-body h3 {
+      font-family: 'Orbitron', sans-serif;
+      font-weight: 700;
+      font-size: 1.1rem;
+      color: #ffffff;
+      margin-bottom: 8px;
+      letter-spacing: 0.05em;
+    }
+
+    .card-body p {
+      font-size: 0.9rem;
+      color: rgba(255, 255, 255, 0.5);
+      line-height: 1.5;
+      margin-bottom: 18px;
+    }
+
+    .card-tag {
+      display: inline-block;
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 0.7rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+
+    .tag-live {
+      background: rgba(50, 205, 50, 0.12);
+      color: #32cd32;
+      border: 1px solid rgba(50, 205, 50, 0.25);
+    }
+
+    .tag-soon {
+      background: rgba(212, 175, 55, 0.08);
+      color: rgba(212, 175, 55, 0.4);
+      border: 1px solid rgba(212, 175, 55, 0.12);
+    }
+
+    .play-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 14px;
+      padding: 10px 24px;
+      background: linear-gradient(135deg, #d4af37, #b8962e);
+      color: #0a0a0f;
+      text-decoration: none;
+      font-family: 'Orbitron', sans-serif;
+      font-weight: 700;
+      font-size: 0.75rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      border-radius: 8px;
+      transition: all 0.25s ease;
+    }
+
+    .play-btn:hover {
+      background: linear-gradient(135deg, #ffd700, #d4af37);
+      box-shadow: 0 4px 20px rgba(212, 175, 55, 0.35);
+      transform: scale(1.03);
+    }
+
+    .play-btn svg {
+      width: 14px;
+      height: 14px;
+      fill: currentColor;
+    }
+
+    /* ===== FOOTER ===== */
+    footer {
+      position: relative;
+      z-index: 1;
+      text-align: center;
+      padding: 40px 20px;
+      border-top: 1px solid rgba(212, 175, 55, 0.08);
+    }
+
+    footer p {
+      font-size: 0.8rem;
+      color: rgba(255, 255, 255, 0.2);
+      letter-spacing: 0.1em;
+    }
+
+    /* ===== GLOW EFFECTS ===== */
+    .glow-orb {
+      position: fixed;
+      border-radius: 50%;
+      filter: blur(100px);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .glow-1 {
+      width: 500px;
+      height: 500px;
+      background: rgba(212, 175, 55, 0.04);
+      top: -150px;
+      right: -100px;
+    }
+
+    .glow-2 {
+      width: 400px;
+      height: 400px;
+      background: rgba(212, 175, 55, 0.03);
+      bottom: -100px;
+      left: -100px;
+    }
+
+    @media (max-width: 640px) {
+      header { padding: 50px 16px 40px; }
+      .section { padding: 30px 16px 60px; }
+      .games-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="glow-orb glow-1"></div>
+  <div class="glow-orb glow-2"></div>
+
+  <header>
+    <h1 class="title">HADEN</h1>
+    <p class="subtitle">Games</p>
+    <div class="header-line"></div>
+  </header>
+
+  <main class="section">
+    <h2 class="section-title">Arcade</h2>
+
+    <div class="games-grid">
+
+      <!-- POLYSNAKE -->
+      <div class="game-card">
+        <div class="card-preview card-preview-polysnake">
+          <span class="preview-icon">🐍</span>
+        </div>
+        <div class="card-body">
+          <h3>PolySnake</h3>
+          <p>A fresh take on the classic snake game. Eat, grow, and survive as long as you can.</p>
+          <span class="card-tag tag-live">● Live</span>
+          <br>
+          <!-- UPDATE THIS LINK to your actual GitHub Pages URL -->
+          <a href="https://yourusername.github.io/polysnake/" class="play-btn" target="_blank">
+            <svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg>
+            Play Now
+          </a>
+        </div>
+      </div>
+
+      <!-- COMING SOON 1 -->
+      <div class="game-card">
+        <div class="card-preview card-preview-coming">
+          <span class="preview-icon">🎮</span>
+        </div>
+        <div class="card-body">
+          <h3>Coming Soon</h3>
+          <p>A new game is in development. Stay tuned for updates.</p>
+          <span class="card-tag tag-soon">In Progress</span>
+        </div>
+      </div>
+
+      <!-- COMING SOON 2 -->
+      <div class="game-card">
+        <div class="card-preview card-preview-coming">
+          <span class="preview-icon">🕹️</span>
+        </div>
+        <div class="card-body">
+          <h3>Coming Soon</h3>
+          <p>Another project is on the way. Check back later.</p>
+          <span class="card-tag tag-soon">In Progress</span>
+        </div>
+      </div>
+
+      <!-- COMING SOON 3 -->
+      <div class="game-card">
+        <div class="card-preview card-preview-coming">
+          <span class="preview-icon">🚀</span>
+        </div>
+        <div class="card-body">
+          <h3>Coming Soon</h3>
+          <p>Something new is cooking. More details coming soon.</p>
+          <span class="card-tag tag-soon">In Progress</span>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <footer>
+    <p>&copy; 2026 HADEN. All rights reserved.</p>
+  </footer>
+
+</body>
+</html>
